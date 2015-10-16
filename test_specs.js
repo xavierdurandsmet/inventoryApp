@@ -18,7 +18,7 @@ describe("Main Constructor", function() {
 
   it("the changeMode function should change the mode to 'single' when mode is 'multi'", function() {
     obj.changeMode('multi');
-    obj.changeMode('single')
+    obj.changeMode('single');
     expect(obj.mode).toEqual("single");
   });
 
@@ -28,13 +28,13 @@ describe("Main Constructor", function() {
     });
 
   it("has a calculate function that gives a percentage of a number given", function(){
-    var result = obj.calculate
+    var result = obj.calculate;
     expect(result(100, 25)).toEqual(25);
   });
 
   it("has a giveOutput function that uses the calculate25 function to output the right result", function(){
     spyOn(Constructor.prototype, "calculate").and.callThrough();
-    obj.giveOutput(100)
+    obj.giveOutput(100);
     expect(Constructor.prototype.calculate).toHaveBeenCalled();
     expect(Constructor.prototype.calculate).toHaveBeenCalledWith(100, 25);
   });
@@ -50,7 +50,7 @@ describe("Main Constructor", function() {
     spyOn(Constructor.prototype, "giveOutput").and.callThrough();
     obj.addToMem('A', 'abc');
     expect(Constructor.prototype.giveOutput).not.toHaveBeenCalled();
-    expect(obj.memory).toEqual({ A: ({ price: 'abc', markup: 0 }) })
+    expect(obj.memory).toEqual({ A: ({ price: 'abc', markup: 0 }) });
   });
 
 });
