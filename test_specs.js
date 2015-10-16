@@ -1,6 +1,5 @@
 describe("Main Constructor", function() {
   beforeEach(function() {
-    // spyOn(obj.calculate25, 'call').and.callThrough();
     obj = new Constructor();
   });
 

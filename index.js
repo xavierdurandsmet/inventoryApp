@@ -5,20 +5,39 @@ function Constructor () {
 
 // toggle single / multi
 Constructor.prototype.changeMode = function(mode) {
-	if (mode === 'single') this.mode = 'single';
-	else this.mode = 'multi';
-	// clear the memory
-	this.memory = {}
+	if (mode === 'single') {
+		this.mode = 'single';
+		this.multiCalled(false)
+	}
+	else {
+		this.mode = 'multi';
+		// clear the memory
+		this.memory = {}
+	}
 };
+
+// tracks if calculateAll has been called or not
+Constructor.prototype.multiCalled = function (bool) {
+	this.calculateAllCalled = bool;
+}
+
+// hide/show element depending on current state
+Constructor.prototype.hideShow = function (element) {
+	if (this.mode === 'single') {
+			element.style.visibility = "hidden";
+		} else {
+			element.style.visibility = 'visible';
+		}
+}
 
 // calculate the 25% markup
-Constructor.prototype.calculate25 = function(num) {
-	return num * 25 / 100
+Constructor.prototype.calculate = function(num, percentage) {
+	return num * percentage / 100
 };
 
-// takes input number, renders output, using the 'calculate25' method
+// takes input number, renders output, using the 'calculate' method
 Constructor.prototype.giveOutput = function (num) {
-	return this.calculate25(num);
+	return this.calculate(num, 25);
 }
 
 // add input to the memory object
@@ -35,38 +54,85 @@ Constructor.prototype.addToMem = function (prop, inputValue) {
 	}
 }
 
+// clear all the outputs on the frontend
+Constructor.prototype.clear = function (className, mode) {
+	// if change of state or in multi mode, when input is changed
+	if (mode.toString() != this.mode.toString() || (mode.toString() == 'multi')) {
+		// transform array-like object to array
+		var arr = Array.prototype.slice.call(document.getElementsByClassName(className))
+		// loop through arr and clear each output
+		arr.forEach(function (element) {
+			element.value = ''
+		})
+	}
+}
+
+// attach markup value to frontend
+Constructor.prototype.attachMarkup = function (item, outputLocation) {
+	var markupValue = this.memory[item].markup
+	outputLocation.value = markupValue;
+}
+
+// renders all outputs at once on clicking button 'calculate all'
+Constructor.prototype.renderAll = function () {
+	var self = this;
+	// get all inputs filled from memory
+	var arr = Object.keys(this.memory)
+	// loop over it to render each
+	arr.forEach(function(prop) {
+		// select the output for each element where there is an input
+		var outputLocation = document.getElementById(prop).parentNode.childNodes[7]
+		// attach markup on each line
+		self.attachMarkup(prop, outputLocation)
+	})
+}
+
+
 var obj = new Constructor();
+
 
 // event delegation : on clicking mode buttons, change the mode of the instance 'obj'
 document.getElementById('toggleButtons').addEventListener('click', 
 	function (e) {
 		var mode = e.target.getAttribute('id').toString()
 		var lastButton = document.getElementById('calculateAll')
+		// clear all inputs and outputs when change mode
+		obj.clear('output', mode)
+		obj.clear('inputVal', mode)
 		// call the changeMode method
-		obj.changeMode.call(obj, mode);
-		// show/hide 'calculateAll' button depending on current mode
-		if (obj.mode === 'single') {
-			lastButton.style.visibility = "hidden";
-		} else {
-			lastButton.style.visibility = 'visible';
-		}
+		obj.changeMode(mode)
+		// show/hide 'calculateAll' button
+		obj.hideShow(lastButton)
 	}
 )
 
-// single mode : calculate output directly after input with event delegation
+// calculate output after input in different ways depending on current mode
 document.getElementById('inputs').addEventListener('input',
 	function (e) {
 		var item = e.target.getAttribute('id').toString()
 		var itemPrice = parseInt(e.target.value)
+		var outputLocation = e.target.parentNode.childNodes[7]
 		// add to memory the item and the price inputed
 		obj.addToMem.call(obj, item, itemPrice)
-		// change markup according to updated memory
-		var outputLocation = e.target.parentNode.childNodes[7]
-		var markupValue = obj.memory[item].markup
-		outputLocation.innerHTML = markupValue
+		if (obj.mode == 'single') {
+			// change markup according to updated memory
+			obj.attachMarkup(item, outputLocation)
+		} else {
+			// clear outputs when 'calculateAll' has been called already
+			if (obj.calculateAllCalled) {
+				obj.clear('output', obj.mode)
+			}
+		}
 	}
 )
 
+// render all outputs at once on clicking the 'calculateAll' button
+document.getElementById('calculateAll').addEventListener('click',
+	function (e) {
+		obj.multiCalled(true)
+		obj.renderAll()
+	}
+)
 
 
 
