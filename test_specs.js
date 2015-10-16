@@ -32,7 +32,7 @@ describe("Main Constructor", function() {
     expect(result(100, 25)).toEqual(25);
   });
 
-  it("has a giveOutput function that uses the calculate25 function to output the right result", function(){
+  it("has a giveOutput function that uses the calculate function to output the right result", function(){
     spyOn(Constructor.prototype, "calculate").and.callThrough();
     obj.giveOutput(100);
     expect(Constructor.prototype.calculate).toHaveBeenCalled();

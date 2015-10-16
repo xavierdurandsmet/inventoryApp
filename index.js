@@ -49,10 +49,16 @@ Constructor.prototype.clear = function (className, mode) {
 	if (mode.toString() != this.mode.toString() || (mode.toString() == 'multi')) {
 		// transform array-like object to array
 		var arr = Array.prototype.slice.call(document.getElementsByClassName(className));
+		// same for label colors
+		var arr2 = Array.prototype.slice.call(document.getElementsByTagName('label'));
 		// loop through arr and clear each output
 		arr.forEach(function (element) {
 			element.style.color = 'black';
 			element.value = '';
+		})
+		arr2.forEach(function (label) {
+			label.style.borderColor = '#6496c8';
+			label.style.backgroundColor = '#6496c8';
 		})
 	}
 }
@@ -65,11 +71,14 @@ Constructor.prototype.attachMarkup = function (item, outputLocation) {
 	if (outputLocation.value > 1000) {
 		outputLocation.style.color = 'red';
 		outputLocation.style.fontWeight = 'bold';
-		// outputLocation.classList.add('specialItem');
+		// changing label color
+		outputLocation.parentNode.childNodes[1].style.backgroundColor = 'red';
+		outputLocation.parentNode.childNodes[1].style.borderColor = 'red'
 	} else {
 		outputLocation.style.color = 'black';
 		outputLocation.style.fontWeight = 'normal';
-		// outputLocation.classList.remove('specialItem');
+		outputLocation.parentNode.childNodes[1].style.backgroundColor = '#6496c8';
+		outputLocation.parentNode.childNodes[1].style.borderColor = '#6496c8';
 	}
 }
 
