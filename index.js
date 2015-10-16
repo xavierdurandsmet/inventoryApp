@@ -8,11 +8,15 @@ Constructor.prototype.changeMode = function(mode) {
 	if (mode === 'single') {
 		this.mode = 'single';
 		this.multiCalled(false)
+		document.getElementById('single').classList.add('activeButton')
+		document.getElementById('multi').classList.remove('activeButton')
 	}
 	else {
 		this.mode = 'multi';
 		// clear the memory
 		this.memory = {}
+		document.getElementById('multi').classList.add('activeButton')
+		document.getElementById('single').classList.remove('activeButton')
 	}
 };
 
@@ -97,7 +101,6 @@ Constructor.prototype.renderAll = function () {
 		self.attachMarkup(prop, outputLocation)
 	})
 }
-
 
 var obj = new Constructor();
 

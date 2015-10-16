@@ -2,8 +2,36 @@
 	box-sizing: border-box;
 }
 
+/*recreating responsive grid*/
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
 
+[class*="col-"] {
+    display: inline-block;
+   	margin-right:5%;
+}
 
+ul{ 
+  list-style-type: none;
+}
+
+li {
+	margin-top:2em;
+}
+
+input {
+	font-family: "Bitter",serif;
+}
 
 /*.outputVal {
 	display: inline-block;
@@ -11,6 +39,7 @@
 	border: 1px solid black;
 }
 */
+
 .inputVal{
 	display: inline-block;
 	width: 200px;
@@ -29,12 +58,50 @@
 
 #toggleButtons, #calculateDiv {
 	text-align: center;
+	margin-bottom: 2em;
 }
 
-#toggleButtons > span {
-	border:1px solid black;
-	display: inline-block;
+button {
+  display: inline-block;
+  margin: 0 10px 0 0;
+  padding: 15px 45px;
+  font-size: 48px;
+  font-family: "Bitter",serif;
+  line-height: 1.8;
+  appearance: none;
+  box-shadow: none;
+  border-radius: 0;
 }
+
+button:focus {
+  outline: none
+}
+
+button {
+  color: #6496c8;
+  background: rgba(0,0,0,0);
+  border: solid 5px #6496c8;
+}
+button:hover {
+  border-color: #346392;
+  color: #346392;
+}
+/*button:active {
+  border-color: #27496d;
+  color: #27496d;
+}*/
+
+.activeButton, #calculateAll:active {
+  color: #fff;
+  background-color: #6496c8;
+  text-shadow: -1px 1px #417cb8;
+  border: none;
+}
+
+/*button:active {
+  background-color: #27496d;
+  text-shadow: -1px 1px #193047;
+}*/
 
 .circle {
 	border-radius: 50%;
@@ -44,38 +111,11 @@
 }
 
 #calculateAll {
+	margin-top: 2em;
 	visibility: hidden;
-	border:1px solid black;
 	text-align: center;
-	/*width:20%;*/
-	/*margin: auto;*/
 }
 
-/*recreating responsive grid*/
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
-
-[class*="col-"] {
-   /* float: left;*/
-    display: inline-block;
-   	margin-right:5%;
-   	margin-top:2em;
-    border: 1px solid red;
-}
-
-ul{ 
-  list-style-type: none;
-}
 
 input[type="number"], #outputValA {
   font-family: sans-serif;
