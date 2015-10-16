@@ -47,8 +47,10 @@ Constructor.prototype.addToMem = function (prop, inputValue) {
 	// change the price input in memory
 	this.memory[prop].price = inputValue
 	// calculate the markup, and take into account edge cases
-	if (typeof inputValue != 'number' || inputValue < 0 || !inputValue) {
+	if (typeof inputValue != 'number' || inputValue < 0) {
 		this.memory[prop].markup = 0;
+	} else if (!inputValue) {
+		this.memory[prop].markup = '';
 	} else {
 		this.memory[prop].markup = this.giveOutput(inputValue)
 	}
@@ -62,6 +64,7 @@ Constructor.prototype.clear = function (className, mode) {
 		var arr = Array.prototype.slice.call(document.getElementsByClassName(className))
 		// loop through arr and clear each output
 		arr.forEach(function (element) {
+			element.style.color = 'black';
 			element.value = ''
 		})
 	}
@@ -71,6 +74,14 @@ Constructor.prototype.clear = function (className, mode) {
 Constructor.prototype.attachMarkup = function (item, outputLocation) {
 	var markupValue = this.memory[item].markup
 	outputLocation.value = markupValue;
+	// special item edge case
+	if (outputLocation.value > 1000) {
+		outputLocation.style.color = 'red';
+		outputLocation.style.fontWeight = 'bold';
+	} else {
+		outputLocation.style.color = 'black';
+		outputLocation.style.fontWeight = 'normal';
+	}
 }
 
 // renders all outputs at once on clicking button 'calculate all'

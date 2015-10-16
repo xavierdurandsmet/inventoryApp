@@ -22,26 +22,31 @@ describe("Main Constructor", function() {
     expect(obj.mode).toEqual("single");
   });
 
-  it("has a calculate25 function that gives 25% of a number given", function(){
-    var result = obj.calculate25
-    expect(result(100)).toEqual(25);
+  it("the multiCalled function should define a boolean for the calculateAllCalled", function() {
+      obj.multiCalled(true);
+      expect(obj.calculateAllCalled).toEqual(true);
+    });
+
+  it("has a calculate function that gives a percentage of a number given", function(){
+    var result = obj.calculate
+    expect(result(100, 25)).toEqual(25);
   });
 
-  it("has a giveOutput function uses the calculate25 function to output the right result", function(){
-    spyOn(Constructor.prototype, "calculate25").and.callThrough();
+  it("has a giveOutput function that uses the calculate25 function to output the right result", function(){
+    spyOn(Constructor.prototype, "calculate").and.callThrough();
     obj.giveOutput(100)
-    expect(Constructor.prototype.calculate25).toHaveBeenCalled();
-    expect(Constructor.prototype.calculate25).toHaveBeenCalledWith(100);
+    expect(Constructor.prototype.calculate).toHaveBeenCalled();
+    expect(Constructor.prototype.calculate).toHaveBeenCalledWith(100, 25);
   });
 
-  it("has a addToMem function uses the giveOutput function to add the output to memory (general case)", function(){
+  it("has a addToMem function that uses the giveOutput function to add the output to memory (general case)", function(){
     spyOn(Constructor.prototype, "giveOutput").and.callThrough();
     obj.addToMem('A', 100);
     expect(Constructor.prototype.giveOutput).toHaveBeenCalled();
     expect(obj.memory).toEqual({ A: ({ price: 100, markup: 25 }) })
   });
 
-  it("has a addToMem function uses the giveOutput function to add the output 0 to memory (edge case)", function(){
+  it("has a addToMem function that uses the giveOutput function to add the output 0 to memory (edge case)", function(){
     spyOn(Constructor.prototype, "giveOutput").and.callThrough();
     obj.addToMem('A', 'abc');
     expect(Constructor.prototype.giveOutput).not.toHaveBeenCalled();
